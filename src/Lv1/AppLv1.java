@@ -74,7 +74,7 @@ public class AppLv1{
 
             // 결과 출력
             if (operator == '/') {
-                System.out.println("결과: " + result);
+                System.out.println("결과(몫): " + result);
                 System.out.println("결과 (나머지): " + remainder);
             } else {
                 System.out.println("결과: " + result);

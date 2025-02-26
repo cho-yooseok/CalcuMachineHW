@@ -43,8 +43,7 @@ public class AppLv2 {
             }
 
             try {
-                int result = calculatorLv2.calculate(num1, num2, operator);
-                System.out.println("결과: " + result);
+                calculatorLv2.calculate(num1, num2, operator);
             } catch (Exception e) {
                 System.out.println("오류: " + e.getMessage());
                 continue;
@@ -59,6 +58,10 @@ public class AppLv2 {
                 calculatorLv2.clearResults();
             }
 
+            System.out.println("현재 저장된 연산 결과: ");
+            for (String result : calculatorLv2.getResults()) {
+                System.out.println(result);
+            }
             System.out.println();
         }
         sc.close();

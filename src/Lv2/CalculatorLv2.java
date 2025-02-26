@@ -4,40 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 class CalculatorLv2 {
-    private List<Integer> results; // 연산 결과를 저장하는 리스트
+    private List<String> results; // 연산 결과를 저장하는 리스트
 
     public CalculatorLv2() {
         this.results = new ArrayList<>();
     }
 
     // 연산 수행 메서드
-    public int calculate(int num1, int num2, char operator) {
-        int result = 0;
+    public void calculate(int num1, int num2, char operator) {
+        String result;
         switch (operator) {
             case '+':
-                result = num1 + num2;
+                result = "결과: " + (num1 + num2);
                 break;
             case '-':
-                result = num1 - num2;
+                result = "결과: " + (num1 - num2);
                 break;
             case '*':
-                result = num1 * num2;
+                result = "결과: " + (num1 * num2);
                 break;
             case '/':
                 if (num2 == 0) {
                     throw new ArithmeticException("0으로 나눌 수 없습니다.");
                 }
-                result = num1 / num2;
+                int quotient = num1 / num2;
+                int remainder = num1 % num2;
+                result = "결과(몫): " + quotient + "\n결과(나머지): " + remainder;
                 break;
             default:
                 throw new IllegalArgumentException("올바른 연산 기호 입력부탁드립니다.");
         }
         results.add(result);
-        return result;
+        System.out.println(result);
     }
 
     // 결과 목록 반환 메서드
-    public List<Integer> getResults() {
+    public List<String> getResults() {
         return new ArrayList<>(results);
     }
 

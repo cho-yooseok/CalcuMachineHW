@@ -25,6 +25,7 @@ public class App {
             char operator = sc.next().charAt(0); // 첫 번째 문자만 가져오기
 
             int result = 0; // 결과값을 저장할 변수
+            int remainder = 0; //나머지를 저장할 변수
 
             // 두 번째 숫자 입력
             System.out.print("두 번째 숫자를 입력하세요: ");
@@ -47,7 +48,8 @@ public class App {
                         System.out.println("오류: 나눗셈에서 분모(두 번째 숫자)에 0이 입력될 수 없습니다.");
                         continue; // 다음 반복으로 이동
                     }
-                    result = num1 / num2; // 나눗셈
+                    result = num1 / num2; // 나눗셈 (몫)
+                    remainder = num1 % num2; //나머지
                     break;
                 default:
                     System.out.println("오류: 잘못된 연산 기호입니다. 다시 입력하세요.");
@@ -55,7 +57,12 @@ public class App {
             }
 
             // 결과 출력
-            System.out.println("결과: " + result);
+            if (operator == '/') {
+                System.out.println("결과: " + result);
+                System.out.println("결과 (나머지): " + remainder);
+            } else {
+                System.out.println("결과:" + result);
+            }
 
             System.out.println(); // 줄바꿈
         }

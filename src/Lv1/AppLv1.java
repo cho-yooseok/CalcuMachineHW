@@ -2,7 +2,7 @@ package Lv1;
 
 import java.util.Scanner; // 사용자 입력을 받기 위한 Scanner를 사용하기 위해 import
 
-public class App {
+public class AppLv1{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // 사용자 입력을 받기 위한 Scanner 객체 생성
 
@@ -18,21 +18,38 @@ public class App {
                 break;
             }
 
-            // 문자열을 정수로 변환 (예외 처리 추가 가능)
-            int num1 = Integer.parseInt(input1);
-
+            int num1;
+            try {
+                // 문자열을 정수로 변환 (예외 처리 추가)
+                num1 = Integer.parseInt(input1);
+            } catch (NumberFormatException e) {
+                System.out.println("올바른 숫자 입력 부탁드립니다.");
+                continue; // 다음 반복으로 이동
+            }
 
             // 연산 기호 입력
             System.out.print("사칙연산 기호를 입력하세요 (+, -, *, /): ");
             char operator = sc.next().charAt(0); // 첫 번째 문자만 가져오기
 
+            // 연산 기호 유효성 검사
+            if (operator != '+' && operator != '-' && operator != '*' && operator != '/') {
+                System.out.println("올바른 연산기호 입력부탁드립니다.");
+                continue; // 다음 반복으로 이동
+            }
+
             int result = 0; // 결과값을 저장할 변수
-            int remainder = 0; //나머지를 저장할 변수
+            int remainder = 0; // 나머지를 저장할 변수
 
             // 두 번째 숫자 입력
             System.out.print("두 번째 숫자를 입력하세요: ");
-            int num2 = sc.nextInt();
-
+            int num2;
+            try {
+                num2 = sc.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("올바른 숫자 입력 부탁드립니다.");
+                sc.next(); // 잘못된 입력을 버림
+                continue; // 다음 반복으로 이동
+            }
 
             // 연산 수행
             switch (operator) {
@@ -51,11 +68,8 @@ public class App {
                         continue; // 다음 반복으로 이동
                     }
                     result = num1 / num2; // 나눗셈 (몫)
-                    remainder = num1 % num2; //나머지
+                    remainder = num1 % num2; // 나머지
                     break;
-                default:
-                    System.out.println("오류: 잘못된 연산 기호입니다. 다시 입력하세요.");
-                    continue; // 다음 반복으로 이동
             }
 
             // 결과 출력
@@ -63,7 +77,7 @@ public class App {
                 System.out.println("결과: " + result);
                 System.out.println("결과 (나머지): " + remainder);
             } else {
-                System.out.println("결과:" + result);
+                System.out.println("결과: " + result);
             }
 
             System.out.println(); // 줄바꿈
@@ -73,40 +87,3 @@ public class App {
     }
 }
 
-
-
-
-/*
-내가 개인적으로 복습할려고 남겨놓은 메모
-
-int num1 = Integer.parseInt(input1);     의 의미
-
-input1                        사용자가 입력한 값 (문자열)
-Integer.parseInt(input1)      문자열을 정수로 변환
-int num1 = ...                변환한 값을 num1이라는 변수에 저장
-
-1.사용자가 입력한 값(input1)은 문자열(String) 형태
-2.Integer.parseInt(input1)을 사용해서 정수(int)로 변환
-3.변환한 값을 num1 변수에 저장해서  사칙연산이 가능하도록 함
-
-즉 문자(String) 형태로 입력된 숫자를 정수(int)로 바꿔주는 역할을함
-변환하는 이유?
-사용자가 입력한 값은 항상 문자열 String 형태로 저장됨
-하지만 숫자로 연산(+,-,*,/)을 하려면 정수(int) 형태로 변환해야함
-
-즉
-Integer.parseInt()   는?
-String(문자열)  ->  int(정수) 로 변환하는 기능
-
-
-
-char operator = sc.next().charAt(0);   의 의미
-사용자가 입력한 내용을 받아서 operator 변수에 저장
-
-sc.next()
-사용자가 키보드로 입력한 한 "단어"를 문자열(String)로 저장
-
-charAt(0)  첫번째 글자가져오기
-문자열String의 첫번째 글자만 가져오는기능
-
- */

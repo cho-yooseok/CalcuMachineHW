@@ -2,7 +2,7 @@ package Testbox;
 
 import java.util.Scanner; // 사용자 입력을 받기 위한 Scanner를 사용하기 위해 import
 
-public class Test {
+public class Test{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // 사용자 입력을 받기 위한 Scanner 객체 생성
 
@@ -23,13 +23,19 @@ public class Test {
                 // 문자열을 정수로 변환 (예외 처리 추가)
                 num1 = Integer.parseInt(input1);
             } catch (NumberFormatException e) {
-                System.out.println("숫자 입력 부탁드립니다.");
+                System.out.println("올바른 숫자 입력 부탁드립니다.");
                 continue; // 다음 반복으로 이동
             }
 
             // 연산 기호 입력
             System.out.print("사칙연산 기호를 입력하세요 (+, -, *, /): ");
             char operator = sc.next().charAt(0); // 첫 번째 문자만 가져오기
+
+            // 연산 기호 유효성 검사
+            if (operator != '+' && operator != '-' && operator != '*' && operator != '/') {
+                System.out.println("올바른 연산기호 입력부탁드립니다.");
+                continue; // 다음 반복으로 이동
+            }
 
             int result = 0; // 결과값을 저장할 변수
             int remainder = 0; // 나머지를 저장할 변수
@@ -40,7 +46,7 @@ public class Test {
             try {
                 num2 = sc.nextInt();
             } catch (java.util.InputMismatchException e) {
-                System.out.println("숫자 입력 부탁드립니다.");
+                System.out.println("올바른 숫자 입력 부탁드립니다.");
                 sc.next(); // 잘못된 입력을 버림
                 continue; // 다음 반복으로 이동
             }
@@ -64,9 +70,6 @@ public class Test {
                     result = num1 / num2; // 나눗셈 (몫)
                     remainder = num1 % num2; // 나머지
                     break;
-                default:
-                    System.out.println("오류: 잘못된 연산 기호입니다. 다시 입력하세요.");
-                    continue; // 다음 반복으로 이동
             }
 
             // 결과 출력

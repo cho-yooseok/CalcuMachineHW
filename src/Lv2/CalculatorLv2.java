@@ -26,7 +26,7 @@ class CalculatorLv2 {
             case '/':
                 if (num2 == 0) { // 0으로 나누는 경우 예외 처리
                     throw new ArithmeticException("0으로 나눌 수 없습니다.");
-                }
+                }  //ArithmeticException이란 나누기 0을 하면 발생하는 에러
                 int quotient = num1 / num2; // 몫 계산
                 int remainder = num1 % num2; // 나머지 계산
                 result = "결과(몫): " + quotient + "\n결과(나머지): " + remainder;

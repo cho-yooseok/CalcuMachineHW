@@ -57,6 +57,7 @@ public class AppLv2 {
                 System.out.println("오류: " + e.getMessage());
                 // e.getMessage()는 자바에서 예외가 발생했을때,
                 //발생한 예외 클래스의 인스턴스에 저장된 메시지를 얻는 코드
+                //여기서는 throw new ArithmeticException("0으로 나눌 수 없습니다.");
                 continue;
             }
 

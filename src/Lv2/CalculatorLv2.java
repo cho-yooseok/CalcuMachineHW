@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 class CalculatorLv2 {
+    //CalsulatorLv2 라는 클래스를 정의      이 클래스가 연산결과를 저장하기 위해
+    // List<String> 타입의   results라는 변수사용
+
+
     private List<String> results; // 연산 결과를 저장하는 리스트
+    // results는 연산 결과를 저장하는 리스트
+    // List<String> 은  문자열String 을 여러 개 저장할 수 있는 리스트 타입
 
     public CalculatorLv2() {
         this.results = new ArrayList<>(); // 리스트 초기화
@@ -12,7 +18,7 @@ class CalculatorLv2 {
 
     // 연산 수행 메서드
     public void calculate(int num1, int num2, char operator) {
-        String result;
+        String result;     //String result;   result는 연산 결과를 저장할 문자열 변수
         switch (operator) {
             case '+':
                 result = "결과: " + (num1 + num2); // 덧셈 연산

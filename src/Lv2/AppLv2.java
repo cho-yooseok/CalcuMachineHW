@@ -44,7 +44,7 @@ public class AppLv2 {
             try {                //try 블록은 예외(오류)가 발생할 수 있는 코드를 감싸는 역할
                 num2 = sc.nextInt(); // 두 번째 숫자 입력 받기
             } catch (java.util.InputMismatchException e) { // 숫자가 아닐 경우 예외 처리
-                System.out.println("올바른 숫자를 입력하세요.");
+                System.out.println("올바른 숫자 입력부탁드립니다.");
                 sc.next(); // 입력 버퍼 비우기
                 //사용자가 잘못된 입력(예: abc)을 했을 때, 입력 버퍼에 남아있는 잘못된 값을 제거하기 위해 사용됨
                 //이 코드가 없으면, 잘못된 입력이 계속 남아 있어 무한 루프에 빠질 수 있음

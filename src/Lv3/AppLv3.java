@@ -60,7 +60,7 @@ public class AppLv3 {
                 num2 = Double.parseDouble(sc.next());
             } catch (NumberFormatException e) {
                 // 숫자로 변환할 수 없는 경우 (예: "abc" 입력)
-                System.out.println("올바른 숫자를 입력하세요.");
+                System.out.println("올바른 숫자 입력부탁드립니다.");
                 continue; // 다시 입력 받기
             }
 

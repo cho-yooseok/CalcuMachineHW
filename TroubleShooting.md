@@ -1,90 +1,123 @@
-# Troubleshooting
-------------
+# 계산기 프로젝트 트러블 슈팅 (수정완료)
+
+## 계산기 프로젝트 깃 허브 주소
+[GitHub Repository](https://github.com/cho-yooseok/CalcuMachineHW)
+
+## 소감
+이번 과제는 처음 해보는 자바 프로젝트라서 많이 어려웠습니다. 단순히 코드를 작성하는 것이 아니라, 오류를 찾고 해결하는 과정이 생각보다 복잡하다는 걸 깨달았습니다. 특히, 프로그램이 멈추지 않도록 예외를 처리하는 방법이 중요하다는 걸 배웠습니다. 아직 배워야 할 것이 많지만, 더 열심히 공부해서 좋은 프로그램을 만들고 싶습니다.
 
 ## 1. 숫자 입력 시 오류 발생
+### 문제 상황
+사용자가 숫자가 아닌 값을 입력하면 `NumberFormatException`이 발생하여 프로그램이 중단될 가능성이 있음.
 
-###  배경
-사용자 입력을 받아 숫자로 변환하는 과정에서 문자나 특수 기호 등이 입력되는 현상을 발견.
+### 원인
+`Double.parseDouble()` 또는 `Integer.parseInt()`를 사용하여 숫자로 변환할 때, 숫자가 아닌 값이 입력되면 예외 발생.
 
-###  발단
-숫자가 아닌 값을 입력하면 `NumberFormatException`이 발생하여 프로그램이 중단될 가능성이 있음.
+### 해결 방법
+`try-catch` 블록을 사용하여 예외 발생 시 사용자에게 재입력을 요청.
 
-###  전개
-`try-catch`를 사용하여 예외 발생 시 사용자에게 재입력을 요청하도록 수정.
+```java
+import java.util.Scanner;
 
-###  위기
-그러나 `try-catch`로만 처리하면 사용자 경험이 저하되고, 매번 예외가 발생하는 것은 비효율적임.
-
-###  절정
-`isNumeric(input)` 함수를 사용하여 숫자인지 검증한 후, 숫자가 아닐 경우 예외 발생 없이 메시지를 출력하는 방식으로 개선.
-
-###  결말
-불필요한 예외 발생을 방지하고, 사용자에게 명확한 안내를 제공하면서도 안정적인 프로그램 동작을 유지함.
-
----
+public class ExceptionExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        try {
+            System.out.print("숫자를 입력하세요: ");
+            String input = scanner.nextLine();
+            int number = Integer.parseInt(input);
+            System.out.println("입력한 숫자: " + number);
+        } catch (NumberFormatException e) {
+            System.out.println("오류: 숫자만 입력하세요!");
+        }
+    }
+}
+```
 
 ## 2. 잘못된 연산자 입력 시 오류 발생
+### 문제 상황
+사칙연산 기호(`+`, `-`, `*`, `/`)가 아닌 다른 기호(`&`, `#`, `@` 등)를 입력하면 `IllegalArgumentException`이 발생.
 
-###  배경
-사칙연산 기호를 입력받을 때 정의되지 않은 기호(`&`, `#`, `@` 등)를 입력하면 `IllegalArgumentException`이 발생.
+### 원인
+`OperatorType.fromSymbol()` 메서드에서 허용되지 않은 연산자를 입력하면 예외가 발생하여 프로그램 중단 가능.
 
-###  발단
-`OperatorType.fromSymbol()` 메서드에서 허용되지 않은 연산자를 입력하면 예외가 발생하여 프로그램이 중단될 위험이 있음.
+### 해결 방법
+입력값을 사전에 검증하여 예외 발생을 방지.
 
-###  전개
-`try-catch`를 사용하여 예외 발생 시 사용자에게 올바른 연산자 입력을 요청하도록 수정.
+```java
+import java.util.Scanner;
 
-###  위기
-그러나 예외 발생 후 메시지를 출력하는 방식은 사용자가 유효한 기호를 명확히 알 수 없다는 문제를 초래.
+enum Operator {
+    ADD('+'), SUBTRACT('-'), MULTIPLY('*'), DIVIDE('/');
+    
+    private char symbol;
+    Operator(char symbol) { this.symbol = symbol; }
+    
+    public static Operator fromSymbol(char symbol) {
+        for (Operator op : Operator.values()) {
+            if (op.symbol == symbol) {
+                return op;
+            }
+        }
+        throw new IllegalArgumentException("오류: 허용되지 않은 연산자입니다!");
+    }
+}
 
-###  절정
-`Set<Character>`를 사용해 허용된 연산자를 미리 정의하고, 입력값을 사전에 검증하여 예외 발생을 방지.
-
-###  결말
-사용자가 입력할 수 있는 연산자를 미리 안내하고, 잘못된 입력을 방지하여 프로그램의 안정성을 향상시킴.
-
----
+public class OperatorExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("사칙연산 기호를 입력하세요 (+, -, *, /): ");
+        char input = scanner.next().charAt(0);
+        
+        try {
+            Operator operator = Operator.fromSymbol(input);
+            System.out.println("선택한 연산자: " + operator);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+```
 
 ## 3. 0으로 나눌 때 오류 발생
+### 문제 상황
+나눗셈 연산에서 두 번째 숫자로 0을 입력하면 `ArithmeticException`이 발생.
 
-###  배경
-나눗셈 연산을 수행할 때, 두 번째 숫자로 `0`을 입력하면 `ArithmeticException`이 발생.
+### 원인
+수학적으로 0으로 나누는 것은 불가능하며, 프로그램에서도 이를 방지하기 위해 예외를 발생시킴.
 
-###  발단
-수학적으로 0으로 나누는 것은 불가능하므로, 이를 방지해야 한다는 필요성을 인지.
+### 해결 방법
+- 나눗셈 연산 전 `if (num2 == 0)`을 추가하여 0 입력 방지.
+- `try-catch`를 활용하여 예외 발생 시 사용자에게 올바른 입력을 요청.
 
-###  전개
-`try-catch`를 활용하여 0으로 나누는 경우 오류 메시지를 출력하고, 다시 입력받도록 처리.
-
-###  위기
-그러나 사용자가 계속해서 0을 입력하면 무한 반복될 위험이 있으며, 단순한 예외 처리는 근본적인 해결책이 아님.
-
-###  절정
-나눗셈 연산 전 입력값을 검사하여 0일 경우 예외를 발생시키지 않고 사전에 다른 숫자를 입력하도록 유도하는 메시지를 추가.
-
-###  결말
-프로그램의 안정성을 유지하면서도 사용자가 올바른 입력을 할 수 있도록 개선.
-
----
+```java
+if (num2 == 0) {
+    System.out.println("오류: 0으로 나눌 수 없습니다. 다른 숫자를 입력하세요.");
+} else {
+    double result = num1 / num2;
+    System.out.println("결과: " + result);
+}
+```
 
 ## 4. 연산 결과 삭제 시 오류 발생
+### 문제 상황
+연산 결과 리스트에서 값을 삭제할 때, 저장된 결과가 없으면 `IndexOutOfBoundsException`이 발생.
 
-###  배경
-연산 결과 리스트에서 값을 삭제할 때, 저장된 결과가 없으면 오류가 발생.
+### 원인
+리스트가 비어 있는 상태에서 `remove(0)`을 호출하면 예외 발생.
 
-###  발단
-`removeFirstResult()` 실행 시 리스트가 비어 있으면 `IndexOutOfBoundsException`이 발생.
+### 해결 방법
+`if (!results.isEmpty())` 검사를 수행하여 리스트가 비어 있는 경우 삭제 시도를 하지 않음.
 
-###  전개
-`try-catch`로 예외를 처리하고, 오류 메시지를 출력하도록 수정.
+```java
+if (!results.isEmpty()) {
+    results.remove(0);
+    System.out.println("첫 번째 결과 삭제 완료!");
+} else {
+    System.out.println("오류: 저장된 연산 결과가 없습니다!");
+}
+```
 
-###  위기
-그러나 매번 예외를 발생시키는 것은 불필요한 연산을 증가시키고, 유지보수를 어렵게 만듦.
-
-###  절정
-삭제 전에 `results.isEmpty()` 검사를 수행하여 리스트가 비어 있는 경우 삭제 시도를 하지 않도록 수정.
-
-###  결말
-예외 발생을 방지하고, 불필요한 연산을 줄여 코드의 효율성을 향상시킴.
-
----
+## 마무리
+너무나도 어려웠습니다.ㅠㅠ 앞으로 더 열심히 공부해야겠다는 생각이 들었습니다. 그래도 이번 과제를 하나씩 진행해 나가면서 자바와 아주 조금은 친해진(?) 것 같아 뿌듯했습니다.

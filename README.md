@@ -42,8 +42,8 @@
 
 
 ## 프로젝트 구조
-
-프로젝트-폴더/
+```
+프로젝트-폴더
 ├── Lv1/
 │   ├── AppLv1.java  # 기본 계산기
 │
@@ -55,7 +55,7 @@
 │   ├── AppLv3.java           # 제네릭 기반 고급 계산기
 │   ├── ArithmeticCalculator.java  # 제네릭 계산 클래스
 │   ├── OperatorType.java     # 연산자 Enum 관리
-
+```
 
 ---
 
